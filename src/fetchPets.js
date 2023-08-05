@@ -1,7 +1,9 @@
+import { fetchPetUrl } from "./fetchUrl";
+
 const fetchPet = async ({ queryKey }) => {
     const id = queryKey[1];
 
-    const apiRes = await fetch(`http://pets-v2.dev-apis.com/pets?id=${id}`);
+    const apiRes = await fetch(fetchPetUrl(id));
 
     if (!apiRes.ok) {
         throw new Error(`Details/${id} fetch not okay`);
