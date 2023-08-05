@@ -1,21 +1,29 @@
+// Importing necessary modules and components from React and other custom files
 import { useEffect, useState } from "react";
-import Pet from "./Pet";
 import useBreedList from "./useBreedList";
+import Results from "./Results";
+
+// Array of available animal types used in the select dropdown
 const ANIMALS = ["", "bird", "cat", "dog", "rabbit", "reptile"];
 
+// The main component - SearchParams
 const SearchParams = () => {
-    const [location, setLocation] = useState("");
-    const [animal, setAnimal] = useState("");
-    const [breed, setBreed] = useState("");
-    const [pets, setPets] = useState([]);
+    // State variables to store user inputs and data from API
+    const [location, setLocation] = useState(""); // The user-entered location
+    const [animal, setAnimal] = useState(""); // The selected animal type
+    const [breed, setBreed] = useState(""); // The selected breed of the animal
+    const [pets, setPets] = useState([]); // The array of pets obtained from API
 
+    // Custom hook to fetch the list of available breeds for the selected animal
     const [breeds] = useBreedList(animal);
-    console.log(breeds);
+
+    // useEffect hook to fetch pets data from the API when the component mounts
     useEffect(() => {
         requestPets();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    // Function to fetch pets data from the API based on user inputs
     async function requestPets() {
         const res = await fetch(
             `http://pets-v2.dev-apis.com/pets?animal=${animal}&location=${location}&breed=${breed}`
@@ -23,6 +31,8 @@ const SearchParams = () => {
         const json = await res.json();
         setPets(json.pets);
     }
+
+    // JSX rendering of the search form and the list of pets
     return (
         <div className="search-params">
             <form
@@ -72,14 +82,8 @@ const SearchParams = () => {
                 </label>
                 <button>Submit</button>
             </form>
-            {pets.map((pet) => (
-                <Pet
-                    name={pet.name}
-                    animal={pet.animal}
-                    breed={pet.breed}
-                    key={pet.id}
-                />
-            ))}
+            {/* Rendering the list of pets */}
+            <Results pets={pets} />
         </div>
     );
 };
