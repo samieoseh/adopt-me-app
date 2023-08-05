@@ -5,6 +5,7 @@ import AdoptedPetContext from "./AdoptedPetContext";
 import useBreedList from "./useBreedList";
 import Results from "./Results";
 import fetchSearch from "./fetchSearch";
+import fetchAccessToken from "./fetchAccessToken";
 
 // Array of available animal types used in the select dropdown
 const ANIMALS = ["", "bird", "cat", "dog", "rabbit", "reptile"];
@@ -21,6 +22,8 @@ const SearchParams = () => {
     });
 
     const results = useQuery(["search", requestParams], fetchSearch);
+    const accessToken = useQuery(["access-token"], fetchAccessToken);
+    console.log(accessToken.data);
     const pets = results?.data?.pets ?? [];
 
     // Custom hook to fetch the list of available breeds for the selected animal
