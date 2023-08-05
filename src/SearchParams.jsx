@@ -1,6 +1,7 @@
 // Importing necessary modules and components from React and other custom files
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import AdoptedPetContext from "./AdoptedPetContext";
 import useBreedList from "./useBreedList";
 import Results from "./Results";
 import fetchSearch from "./fetchSearch";
@@ -12,7 +13,7 @@ const ANIMALS = ["", "bird", "cat", "dog", "rabbit", "reptile"];
 const SearchParams = () => {
     // State variables to store user inputs and data from API
     const [animal, setAnimal] = useState(""); // The selected animal type
-
+    const [adoptedPet] = useContext(AdoptedPetContext);
     const [requestParams, setRequestParams] = useState({
         animal: "",
         location: "",
@@ -40,6 +41,11 @@ const SearchParams = () => {
                     setRequestParams(obj);
                 }}
             >
+                {adoptedPet ? (
+                    <div className="pet image-container">
+                        <img src={adoptedPet.images[0]} alt={adoptedPet.name} />
+                    </div>
+                ) : null}
                 <label htmlFor="location">
                     Location
                     <input
