@@ -1,5 +1,7 @@
 import config from "./config";
+
 const fetchAccessToken = async () => {
+    console.log("fetching");
     const url = "https://api.petfinder.com/v2/oauth2/token";
     const clientId = config.apiKey;
     const clientSecret = config.secretKey;
@@ -23,6 +25,7 @@ const fetchAccessToken = async () => {
         throw new Error(`Error in access token`);
     }
 
+    console.log("Fetched");
     return apiRes.json();
 };
 
